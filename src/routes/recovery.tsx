@@ -123,7 +123,7 @@ function Recovery() {
           <div className="rounded-3xl border border-border bg-card p-6 shadow-soft lg:col-span-2">
             <h3 className="font-display text-lg font-semibold">Pain vs Energy</h3>
             <div className="mt-4 h-64">
-              <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.92 0.012 230)" />
                   <XAxis dataKey="week" stroke="oklch(0.48 0.03 245)" fontSize={12} />
@@ -136,31 +136,33 @@ function Recovery() {
             </div>
           </div>
         </div>
+        
 
         {/* AI insight */}
-        <div className={`mt-6 rounded-3xl border p-6 shadow-soft ${
-          insight.tone === "good" ? "border-secondary/40 bg-secondary/10" :
-          insight.tone === "warn" ? "border-destructive/30 bg-destructive/10" :
-          "border-primary/30 bg-primary/5"
-        }`}>
-          <div className="flex items-start gap-4">
-            <div className={`flex h-11 w-11 items-center justify-center rounded-2xl text-white ${
-              insight.tone === "good" ? "bg-secondary" : insight.tone === "warn" ? "bg-destructive" : "bg-primary"
-            }`}>
-              {insight.tone === "warn" ? <AlertTriangle className="h-5 w-5" /> : <Sparkles className="h-5 w-5" />}
-            </div>
-            <div className="flex-1">
-              <div className="text-xs font-semibold uppercase tracking-wider opacity-80">AI Recovery Assistant</div>
-              <p className="mt-1 text-sm">{insight.text}</p>
-              {insight.tone === "warn" && (
-                <Button asChild className="mt-4 bg-destructive text-destructive-foreground hover:bg-destructive/90">
-                  <Link to="/appointment"><Calendar className="mr-2 h-4 w-4" /> Book Follow-Up Appointment</Link>
-                </Button>
-              )}
+        {insight && (
+          <div className={`mt-6 rounded-3xl border p-6 shadow-soft ${
+            insight.tone === "good" ? "border-secondary/40 bg-secondary/10" :
+            insight.tone === "warn" ? "border-destructive/30 bg-destructive/10" :
+            "border-primary/30 bg-primary/5"
+          }`}>
+            <div className="flex items-start gap-4">
+              <div className={`flex h-11 w-11 items-center justify-center rounded-2xl text-white ${
+                insight.tone === "good" ? "bg-secondary" : insight.tone === "warn" ? "bg-destructive" : "bg-primary"
+              }`}>
+                {insight.tone === "warn" ? <AlertTriangle className="h-5 w-5" /> : <Sparkles className="h-5 w-5" />}
+              </div>
+              <div className="flex-1">
+                <div className="text-xs font-semibold uppercase tracking-wider opacity-80">AI Recovery Assistant</div>
+                <p className="mt-1 text-sm">{insight.text}</p>
+                {insight.tone === "warn" && (
+                  <Button asChild className="mt-4 bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                    <Link to="/appointment"><Calendar className="mr-2 h-4 w-4" /> Book Follow-Up Appointment</Link>
+                  </Button>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-
+        )}
         {/* Logger + entries */}
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
           <form onSubmit={add} className="rounded-3xl border border-border bg-card p-6 shadow-soft">
@@ -168,21 +170,34 @@ function Recovery() {
             <div className="mt-5 grid gap-4">
               <div>
                 <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Recovery Notes</Label>
-                <Textarea value={draft.notes} onChange={(e) => setDraft({ ...draft, notes: e.target.value })} placeholder="Describe how you've felt this week..." className="mt-1.5" />
+                <Textarea 
+                  value={draft?.notes || ""} 
+                  onChange={(e) => setDraft({ ...draft, notes: e.target.value })} 
+                  placeholder="Describe how you've felt this week..." 
+                  className="mt-1.5" 
+                />
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Daily Feeling</Label>
-                  <Select value={draft.feeling} onValueChange={(v) => setDraft({ ...draft, feeling: v })}>
+                  <Select 
+                    value={draft?.feeling || ""} 
+                    onValueChange={(v) => setDraft({ ...draft, feeling: v })}
+                  >
                     <SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      {["Excellent", "Good", "Okay", "Low", "Bad"].map((f) => <SelectItem key={f} value={f}>{f}</SelectItem>)}
+                      {["Excellent", "Good", "Okay", "Low", "Bad"].map((f) => (
+                        <SelectItem key={f} value={f}>{f}</SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
                 <div>
                   <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Mobility Status</Label>
-                  <Select value={draft.mobility} onValueChange={(v) => setDraft({ ...draft, mobility: v })}>
+                  <Select 
+                    value={draft?.mobility || ""} 
+                    onValueChange={(v) => setDraft({ ...draft, mobility: v })}
+                  >
                     <SelectTrigger className="mt-1.5"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       {["Limited", "Assisted", "Independent"].map((m) => <SelectItem key={m} value={m}>{m}</SelectItem>)}

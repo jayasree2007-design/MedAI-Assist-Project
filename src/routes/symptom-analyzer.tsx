@@ -97,10 +97,13 @@ function SymptomAnalyzer() {
     appointmentLoading: false,
     appointmentError: null,
     appointmentSuccess: null,
+
   });
 
   const scroller = useRef<HTMLDivElement>(null);
   const sessionIdRef = useRef(crypto.randomUUID());
+  const handlePatientDetailsValidationFail = () => {console.log("Patient details validation failed");};
+
 
   useEffect(() => {
     scroller.current?.scrollTo({ top: scroller.current.scrollHeight, behavior: "smooth" });

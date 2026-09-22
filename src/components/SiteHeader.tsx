@@ -9,7 +9,7 @@ export function SiteHeader() {
         <Link to="/" className="flex items-center gap-2">
           <img src={logo} alt="DevyoraMEDai logo" className="h-9 w-9 rounded-xl shadow-glow object-cover" />
           <div className="leading-tight">
-            <div className="font-display text-base font-bold">DevyoraMEDai</div>
+            <div className="font-display text-base font-bold">MedAI Assist</div>
             <div className="text-[10px] uppercase tracking-wider text-muted-foreground">Care, intelligently</div>
           </div>
         </Link>
